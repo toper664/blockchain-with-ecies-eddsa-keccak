@@ -1,6 +1,7 @@
 # twisted edwards curve form: a*x^2 + y^2 = 1 + b*x^2*y^2
 import random
-import keccak
+from blockchain.keccak import sha3
+import hashlib
 
 # EdDSA base functions
 def point_mul(P, Q, a, b, m):
@@ -51,13 +52,17 @@ def str_to_int(text):
     encoded_hex = text.encode("utf-8").hex()
     return hex_to_int(encoded_hex)
 
+def hashing(text_int):
+    return int(hashlib.sha256(str(text_int).encode("utf-8")).hexdigest(), 16)
+
 def keypair_gen(bit_size=256):
     pri = random.getrandbits(bit_size)
     pub = double_and_add(I, pri, a, b, m)
     return pub, pri
 
 def sign(msg, pub, pri):
-    k1 = hex_to_int(keccak.sha3(str(keccak.sha3(msg, 256)) + msg, 256)) % m
+    k1 = hex_to_int(sha3(str(sha3(msg, 256)) + msg, 256)) % m
+    # k1 = hashing(hashing(str_to_int(msg)) + str_to_int(msg)) % m
     SignA = double_and_add(I, k1, a, b, m)
 
     k2 = (SignA[0] + pub[0] + str_to_int(msg)) % m
@@ -75,8 +80,12 @@ def verify(msg, signature, pub):
     assert P1[0] == P2[0] and P1[1] == P2[1]
     print("Signature is verified!")
 
-# test
-# testpub, testpri = keypair_gen()
-# msg = "hai"
-# s = sign(msg, testpub, testpri)
-# verify(msg, s, testpub)
+# Test drive
+if __name__ == "__main__":
+    testpub, testpri = keypair_gen()
+    print(testpub)
+    print(testpri)
+    msg = "aku butuh senapan!"
+    s = sign(msg, testpub, testpri)
+    print(s)
+    verify(msg, s, testpub)

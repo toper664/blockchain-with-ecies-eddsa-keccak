@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 from uuid import uuid4
 
-from .blockchain import Blockchain, MINING_REWARD, MINING_SENDER
+from .blockchain import Blockchain, dummy_reward, dummy_sender
 
 
 # Initialize Flask app

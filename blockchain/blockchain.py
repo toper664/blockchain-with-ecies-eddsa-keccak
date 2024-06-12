@@ -1,5 +1,4 @@
 import binascii
-import keccak
 import json
 from collections import OrderedDict
 from time import time
@@ -9,6 +8,7 @@ from uuid import uuid4
 import Crypto
 import Crypto.Random
 import requests
+import blockchain.keccak
 from Crypto.Hash import SHA
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
@@ -51,7 +51,7 @@ class Blockchain:
     @staticmethod
     def hash(block: dict) -> str:
         block_string = json.dumps(block, sort_keys=True)
-        return keccak.sha3(block_string, 256)
+        return sha3(block_string, 256)
 
     @property
     def last_block(self):

@@ -98,14 +98,15 @@ def dec(cipher, nonce, sent_pub, pri):
     result = d.decrypt(cipher).decode("utf-8")
     return result
 
-# test
-# rA = random.getrandbits(256)
-# rB = random.getrandbits(256)
-# pubA = raise_pub(rA)
-# pubB = raise_pub(rB)
+# Test drive
+if __name__ == "__main__":
+    rA = random.getrandbits(256)
+    rB = random.getrandbits(256)
+    pubA = raise_pub(rA)
+    pubB = raise_pub(rB)
 
-# prvB = raise_pri(pubA, rB)
+    prvB = raise_pri(pubA, rB)
 
-# ct = enc("tolong aku!", "sekarang", prvB)
-# res = dec(ct, "sekarang", pubB, rA)
-# print(res)
+    ct = enc("tolong aku!", "sekarang", prvB)
+    res = dec(ct, "sekarang", pubB, rA)
+    print(res)
