@@ -1,0 +1,3 @@
+nama : Hatsune Miku
+umur : 17
+NIM : 18269420
